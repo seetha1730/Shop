@@ -1,113 +1,59 @@
 <div class="right-panel col-lg-11 col-md-11">
-   <div class="add-panel col-lg-4 col-md-4" id="product">
-        <h3>Add new product</h3>
-          <div class="product">
-           
-            <label class="form-label">Product Name</label>
-            <input class="form-control mr-sm-2" type="text" placeholder="Enter Product name" aria-label="Search">
+ 
 
-            <label class="form-label">Product Price</label>
-            <input class="form-control  mr-sm-2" type="text" placeholder=" Price" aria-label="price">
-           
-          <label class="form-label">Category Name </label>
-            <select class="custom-select form-select " aria-label="Default select example">
-              <option selected>None</option>
-              
-            </select>
+  <div class="show-panel" id="product">
 
-             <label class="form-label">Stock </label>
-            <select class="custom-select form-select " aria-label="Default select example">
-              <option selected>Instock</option>
-              <option >Out of Stock</option>
-              
-            </select>
-
-           <label class="form-label ">Description  </label> 
-           <textarea class="form-control description mr-sm-2" type="text" name="" id="" cols="20" rows="10" placeholder="Product Description"></textarea>
-          <div class="upload-image col-lg-12 col-md-12">
-        <img class="col-lg-3 col-md-3" src="/images/upload.png" />
-        <label for="inputField" class="btn btn-orange upload-btn">Upload image</label>
-        <input
-          class="col-lg-2 col-md-2 upload-btn"
-          type="file"
-          id="inputField"
-          style="display:none"
-        />
-
-      </div>
-
-
-            <div class="col-lg-12 col-md-12 ">
-            <button type="submit" class="btn btn-primary update-btn">Add new product</button>
-            </div>
-          
-          
-        </div>
-      </div>
-
- <div class="show-panel col-lg-8 col-md-8" id="product">
-      
     <div class="table-responsive">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-8"><h2>Product Details</h2></div>
-                    <div class="col-sm-4">
-                        <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
-                    </div>
-                </div>
+     
+        <div class="table-title">
+          <div class="row">
+            <div class="col-sm-8">
+              <h2>Product Details</h2>
             </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th class="column-wider">Desc</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Stock</th>
-                        <th>Actions</th>
+            <div class="col-sm-4">
+              <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i>
+                <a href="/product/add-product" >Add New</a></button>
+            </div>
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Price</th>
 
-                       
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td><img src=""/></td>
-                        <td>lentils</td>
-                        <td>yellow color pulses</td>
-                        <td>veggies</td>
-                        <td>25 euros</td>
-                        <td>Instock</td>
+              <th>Category</th>
+              <th>Stock</th>
+              <th class="column-wider">Desc</th>
+              <th>Actions</th>
 
-                        <td>
-                            <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td><img src=""/></td>
-                        <td>lentils</td>
-                        <td>yellow color pulses</td>
-                        <td>veggies</td>
-                          <td>25 euros</td>
-                        <td>Instock</td>
+            </tr>
+          </thead>
+          {{#each productList}}
+          <tr>
+  <td>{{inc @index}}</td>
+  <td class="product-image"><img src="{{this.imageUrl}}" /></td>
+  <td>{{this.productName}}<p>{{this.quantity}}</p></td>
+  <td>{{this.productPrice}} euros</td>
+  <td>{{this.categoryName}}</td>
+  <td>{{this.stock}}</td>
+  <td>{{this.description}}</td>
+  <td>
+    <form action="/product/{{_id}}/edit" method="GET"> <!-- Use GET method to navigate to edit page -->
+      <button type="submit" class="edit" title="Edit"><i class="material-icons">&#xE254;</i></button>
+    </form>
+    <form action="/product/{{_id}}/delete" method="POST">
+      <button type="submit" class="delete" title="Delete"><i class="material-icons">&#xE872;</i></button>
+    </form>
+  </td>
+</tr>
+      
+          {{/each}}
+        </table>
+      
+    </div>
+  </div>
 
-                        <td>
-                            <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                                    </td>
-                                </tr>
-                                
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>     
-           
-</div>  
+</div>

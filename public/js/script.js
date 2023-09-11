@@ -1,74 +1,26 @@
 
+
 // Cache out buttons container, and all of the panels
 const buttons = document.querySelector('.setting-buttons');
 const panels = document.querySelectorAll('.panel');
 
 // Add an event listener to the buttons container
-buttons.addEventListener('click', handleClick);
+buttons?.addEventListener('click', handleClick);
 
 // When a child element of `buttons` is clicked
 function handleClick(e) {
   if (e.target.matches('button')) {
+    // Hide all panels by removing the 'show' class
     panels.forEach(panel => panel.classList.remove('show'));
-     const { id } = e.target.dataset;
 
- 
+    // Extract the 'id' attribute from the clicked button's dataset
+    const { id } = e.target.dataset;
+
+    // Construct a CSS selector to select the corresponding panel
     const selector = `.panel[id="${id}"]`;
+
+    // Add the 'show' class to the selected panel to make it visible
     document.querySelector(selector).classList.add('show');
   }
 }
 
-
-
-  $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip();
-      var actions = $("table td:last-child").html();
-      // Append table with add row form on add new button click
-      $(".add-new").click(function(){
-          $(this).attr("disabled", "disabled");
-          var index = $("table tbody tr:last-child").index();
-          var row = '<tr>' +
-              '<td><input type="text" class="form-control" name="name" id="name"></td>' +
-              '<td><input type="text" class="form-control" name="department" id="department"></td>' +
-              '<td><input type="text" class="form-control" name="phone" id="phone"></td>' +
-              '<td>' + actions + '</td>' +
-          '</tr>';
-          $("table").append(row);		
-          $("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
-          $('[data-toggle="tooltip"]').tooltip();
-      });
-      // Add row on add button click
-      $(document).on("click", ".add", function(){
-          var empty = false;
-		var input = $(this).parents("tr").find('input[type="text"]');
-        input.each(function(){
-			if(!$(this).val()){
-				$(this).addClass("error");
-				empty = true;
-			} else{
-                $(this).removeClass("error");
-            }
-		});
-		$(this).parents("tr").find(".error").first().focus();
-		if(!empty){
-			input.each(function(){
-				$(this).parent("td").html($(this).val());
-			});			
-			$(this).parents("tr").find(".add, .edit").toggle();
-			$(".add-new").removeAttr("disabled");
-		}		
-    });
-	// Edit row on edit button click
-	$(document).on("click", ".edit", function(){		
-        $(this).parents("tr").find("td:not(:last-child)").each(function(){
-			$(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
-		});		
-		$(this).parents("tr").find(".add, .edit").toggle();
-		$(".add-new").attr("disabled", "disabled");
-    });
-	// Delete row on delete button click
-	$(document).on("click", ".delete", function(){
-        $(this).parents("tr").remove();
-		$(".add-new").removeAttr("disabled");
-    });
-});	

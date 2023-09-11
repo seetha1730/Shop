@@ -15,22 +15,13 @@ router.get("/profile", (req, res, next) =>{
 router.get("/inventory", (req, res, next) =>{
   res.render("inventory")
 }) 
-router.get("/category", (req, res, next) =>{
-  res.render("category")
-}) 
-router.get("/product", (req, res, next) =>{
-  res.render("product")
-})
+
 router.get("/login", (req, res, next) =>{
-  res.render("login",  {layout: false})
+  res.render("auth/login",  {layout: false})
 })
 router.get("/signup", (req, res, next) =>{
-  res.render("signup")
+  res.render("auth/signup",{layout: false})
 }) 
-router.get("*", (req, res) => {
 
-  res.send("Page not found - 404")
-
-})
 
 module.exports = router;
