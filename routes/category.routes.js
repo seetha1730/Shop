@@ -13,7 +13,6 @@ router.get('/category/add-category', (req, res, next) => {
 });
 
 // Handle the POST request to add a new category
-// Handle the POST request to add a new category
 router.post('/category/add-category', fileUploader.single('image'), (req, res, next) => {
     const { categoryName, parentCategory } = req.body;
   

@@ -34,8 +34,12 @@ const projectName = "point-of-sale";
 app.locals.appTitle = `${capitalize(projectName)} created with IronLauncher`;
 
 // 👇 Start handling routes here
+const homeRoutes = require("./routes/home.routes");
+app.use("/", homeRoutes);
+
 const indexRoutes = require("./routes/index.routes");
 app.use("/", indexRoutes);
+
 
 const productRoutes = require('./routes/product.routes'); 
 app.use('/', productRoutes); 

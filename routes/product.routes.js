@@ -18,14 +18,29 @@ router.get('/product/add-product', (req, res, next) => {
 
 // POST request to add a new product
 router.post('/product/add-product', fileUploader.single('image'), (req, res) => {
-  if (!req.file) {
-    // Handle the case where no file was uploaded (optional)
-    res.status(400).send('No file uploaded.');
-    return;
-  }
-
+ 
   const { productName, productPrice, quantity, categoryName, stock, description } = req.body;
-  const imageUrl = req.file.path; // Cloudinary image URL
+ 
+ // Check if productName is empty
+ if (!productName) {
+  const errors = [{ msg: 'Product name is required.' }];
+  return res.render('product/add-product', { errors, productName, productPrice, quantity });
+}
+
+// Check if productPrice is empty or not a valid number
+if (!productPrice || isNaN(productPrice)) {
+  const errors = [{ msg: 'Product price is required and must be a valid number.' }];
+  return res.render('product/add-product', { errors, productName, productPrice, quantity });
+}
+
+// Check if quantity is empty
+if (!quantity) {
+  const errors = [{ msg: 'Quantity is required.' }];
+  return res.render('product/add-product', { errors, productName, productPrice, quantity });
+
+  }
+    // Continue with creating the product without image
+  const imageUrl = req.file ? req.file.path : '';
 
   Product.create({
     productName,
@@ -49,7 +64,7 @@ router.post('/product/add-product', fileUploader.single('image'), (req, res) => 
 // GET request to display the product list
 router.get('/product', (req, res, next) => {
   Product.find()
-  .populate('categoryName')
+
     .then(productList => {
       console.log(productList)
       res.render("product/product", { productList });

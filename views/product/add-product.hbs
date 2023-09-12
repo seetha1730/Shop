@@ -2,6 +2,15 @@
  <div class="show-panel" id="product">
 <div class="add-panel" id="add-product">
     <h3>Add new product</h3>
+     {{#if errors}}
+  <div class="alert alert-danger">
+    <ul>
+      {{#each errors}}
+        <li>{{this.msg}}</li>
+      {{/each}}
+    </ul>
+  </div>
+   {{/if}}
     <form action="/product/add-product" method="post" enctype="multipart/form-data">
       <div class="product">
 
