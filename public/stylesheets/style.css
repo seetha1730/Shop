@@ -592,7 +592,19 @@ table.table tbody td {
   vertical-align: middle;
 }
 textarea::placeholder{color:#f1743c !important}
-
+.btn.addCart.bi-plus{margin-right: 5px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #edbca6;
+    color: #292c4b;
+    font-size: 30px;
+    font-weight: bold;
+    color: #f1743c;
+    border-radius: 5px;
+}
 /** Table for product ends **/
 @media (min-width: 768px) and (max-width: 1239px) {
   .product-display-section {

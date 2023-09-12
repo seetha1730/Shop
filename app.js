@@ -13,11 +13,12 @@ const express = require("express");
 // https://www.npmjs.com/package/hbs
 let hbs = require("hbs");
 
-
 const app = express();
 
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
 require("./config")(app);
+
+
 hbs.registerHelper("inc", function(value, options)
 {
     return parseInt(value) + 1;
@@ -47,9 +48,12 @@ app.use('/', productRoutes);
 const categoryRoutes = require('./routes/category.routes'); 
 app.use('/', categoryRoutes); 
 
+const apiRoutes = require('./routes/API.routes'); 
+app.use('/', apiRoutes);
+
+
 const authRoutes = require('./routes/auth.routes'); 
 app.use('/', authRoutes);
-
 
 
 

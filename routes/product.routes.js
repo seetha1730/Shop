@@ -63,17 +63,16 @@ if (!quantity) {
 
 // GET request to display the product list
 router.get('/product', (req, res, next) => {
-  Product.find()
-
-    .then(productList => {
-      console.log(productList)
-      res.render("product/product", { productList });
-    
-      
-      })
-     
-    
-    .catch(err => console.log(err));
+  Category.find()
+    .then(categoryList => {
+      // Fetch categoryList here and render product.hbs
+      Product.find()
+        .then(productList => {
+          res.render("product/product", { productList, categoryList });
+        })
+        .catch(err => next(err));
+    })
+    .catch(err => next(err));
 });
 
 // GET request to display the edit product page
