@@ -1,3 +1,5 @@
+
+
 // Cache out buttons container, and all of the panels
 const buttons = document.querySelector('.setting-buttons');
 const panels = document.querySelectorAll('.panel');
@@ -23,6 +25,7 @@ function handleClick(e) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+  
   const searchForm = document.getElementById('product-search-form');
   const searchInput = document.getElementById('product-search');
   const searchResultsContainer = document.getElementById('product-container');
@@ -56,17 +59,21 @@ document.addEventListener('DOMContentLoaded', function () {
       productItem.innerHTML = `
         <div class="product-in-cart">
           <p class="product-name">${product.productName}</p>
-          <h4 class="product-price">$${product.productPrice.toFixed(2)}</h4>
+      <h4 class="product-price">$${(product.productPrice).toFixed(2)}</h4>
         </div>
-
+        
+        
         <div class="input-group">
           <i class="bi bi-dash decrement"></i>
-          <span class="input-number form-control quantity">${product.quantity}</span>
+          <span class="input-number form-control quantity"> 0 </span>
           <i class="bi bi-plus increment"></i>
-        </div>
+        </div>   
+       
       `;
 
       productDisplaySection.appendChild(productItem);
+
+    
     });
   }
 
@@ -85,6 +92,9 @@ document.addEventListener('DOMContentLoaded', function () {
       addToCart(productData);
     });
   });
+
+  // Update the cart display when the page loads
+  updateCartDisplay();
 
   // Function to fetch search results and display them
   const fetchSearchResults = (searchTerm) => {
@@ -108,12 +118,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 <button class="btn addCart bi bi-plus col-4" data-product='${JSON.stringify(product)}' value="Add"></button>
               </div>
             `;
-            productCard.dataset.productId = product.id; // Assuming 'product' has an 'id' property
-
             searchResultsContainer.appendChild(productCard);
 
             // Add click event listener to "Add" button
-            const addCartButtons = productCard.querySelectorAll('.addCart');
+            const addCartButtons = document.querySelectorAll('.addCart');
             addCartButtons.forEach((addCartButton) => {
               addCartButton.addEventListener('click', (event) => {
                 const productData = JSON.parse(event.target.getAttribute('data-product'));
@@ -130,6 +138,8 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error('Error fetching search results:', error);
       });
   };
+
+
 
   // Event listener for the search input field
   searchInput.addEventListener('input', (event) => {
@@ -148,4 +158,8 @@ document.addEventListener('DOMContentLoaded', function () {
   searchForm.addEventListener('submit', (event) => {
     event.preventDefault();
   });
-});
+
+
+  
+})
+
