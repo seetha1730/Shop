@@ -1,100 +1,86 @@
 
-
-// Cache out buttons container, and all of the panels
-const buttons = document.querySelector('.setting-buttons');
-const panels = document.querySelectorAll('.panel');
-
-// Add an event listener to the buttons container
-buttons?.addEventListener('click', handleClick);
-
-// When a child element of `buttons` is clicked
-function handleClick(e) {
-  if (e.target.matches('button')) {
-    // Hide all panels by removing the 'show' class
-    panels.forEach(panel => panel.classList.remove('show'));
-
-    // Extract the 'id' attribute from the clicked button's dataset
-    const { id } = e.target.dataset;
-
-    // Construct a CSS selector to select the corresponding panel
-    const selector = `.panel[id="${id}"]`;
-
-    // Add the 'show' class to the selected panel to make it visible
-    document.querySelector(selector).classList.add('show');
-  }
+function increment(event) {
+  const id = event.target.getAttribute('data-id');
+  // Send an AJAX POST request to add the product to the server's shopping cart
+  fetch(`/cart/increment/${id}`, {
+    method: 'GET',
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      // Handle the response from the server if needed
+      // Optionally, you can update the cart display or perform other actions here
+      updateCartDisplay(data.cart);
+    })
+    .catch((error) => {
+      console.error('Error adding product to cart:', error);
+    });
+}
+function decrement(productData) {
+  // Send an AJAX POST request to add the product to the server's shopping cart
+  const id = event.target.getAttribute('data-id');
+  fetch(`/cart/decrement/${id}`, {
+    method: 'GET',
+  
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      // Handle the response from the server if needed
+      // Optionally, you can update the cart display or perform other actions here
+      updateCartDisplay(data.cart);
+    })
+    .catch((error) => {
+      console.error('Error adding product to cart:', error);
+    });
 }
 
+const productDisplaySection = document.querySelector('.product-display-section'); 
+const updateCartDisplay = (cartItems) => {
+
+      // Clear previous cart display
+      productDisplaySection.innerHTML = '';
+
+      // Display cart contents
+      cartItems.forEach((cartItem) => {
+        const productItem = document.createElement('div');
+        productItem.classList.add('product-add-section');
+
+        // Assuming 'cartItem' has properties like 'productName' and 'productPrice'
+        productItem.innerHTML = `
+          <div class="product-in-cart">
+            <p class="product-name">${cartItem.productName}</p>
+            <h4 class="product-price">$${cartItem.productPrice.toFixed(2)}</h4>
+          </div>
+
+          <div class="input-group">
+            <i class="bi bi-dash decrement" data-id="${cartItem._id}"></i>
+            <span class="input-number form-control quantity">${cartItem.noItems}</span>
+            <i class="bi bi-plus increment" data-id="${cartItem._id}"></i>
+          </div>
+        `;
+
+        productDisplaySection.appendChild(productItem);
+           // Attach a click event listener to the "Add increment " buttons
+    const incrementButton = document.querySelectorAll('.increment');
+    incrementButton.forEach((addItem) => {
+      addItem.addEventListener('click', increment);
+    });
+
+   // Attach a click event listener to the "Decrement" buttons
+const decrementButton = document.querySelectorAll('.decrement');
+decrementButton.forEach((minusItem) => {
+  minusItem.addEventListener('click', decrement);
+});
+      });
+    
+};
 document.addEventListener('DOMContentLoaded', function () {
   
   const searchForm = document.getElementById('product-search-form');
   const searchInput = document.getElementById('product-search');
   const searchResultsContainer = document.getElementById('product-container');
-  const cartSection = document.querySelector('.product-add-section');
 
-  // Function to save the cart to local storage
-  function saveCartToLocalStorage(cartData) {
-    localStorage.setItem('cart', JSON.stringify(cartData));
-  }
 
-  // Function to retrieve the cart from local storage
-  function getCartFromLocalStorage() {
-    const cartData = localStorage.getItem('cart');
-    return JSON.parse(cartData) || []; // Return an empty array if no data is found
-  }
-
-  // Initialize the cart by retrieving data from local storage
-  const cart = getCartFromLocalStorage();
-
-  // Function to update the cart display
-  function updateCartDisplay() {
-    const productDisplaySection = document.querySelector('.product-display-section');
-    productDisplaySection.innerHTML = ''; // Clear the current display
-
-    cart.forEach((product) => {
-      const productItem = document.createElement('div');
-      productItem.classList.add('product-add-section');
-      productItem.dataset.productId = product.id; // Assuming 'product' has an 'id' property
-
-      // Assuming 'product' has properties like 'productName' and 'productPrice'
-      productItem.innerHTML = `
-        <div class="product-in-cart">
-          <p class="product-name">${product.productName}</p>
-      <h4 class="product-price">$${(product.productPrice).toFixed(2)}</h4>
-        </div>
-        
-        
-        <div class="input-group">
-          <i class="bi bi-dash decrement"></i>
-          <span class="input-number form-control quantity"> 0 </span>
-          <i class="bi bi-plus increment"></i>
-        </div>   
-       
-      `;
-
-      productDisplaySection.appendChild(productItem);
-
-    
-    });
-  }
-
-  // Function to add a product to the cart
-  function addToCart(product) {
-    cart.push(product);
-    updateCartDisplay();
-    saveCartToLocalStorage(cart); // Save the updated cart to local storage
-  }
-
-  // Event listener for the "Add" buttons
-  const addCartButtons = document.querySelectorAll('.addCart');
-  addCartButtons.forEach((addCartButton) => {
-    addCartButton.addEventListener('click', (event) => {
-      const productData = JSON.parse(event.target.getAttribute('data-product'));
-      addToCart(productData);
-    });
-  });
-
-  // Update the cart display when the page loads
-  updateCartDisplay();
+  
 
   // Function to fetch search results and display them
   const fetchSearchResults = (searchTerm) => {
@@ -139,8 +125,6 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   };
 
-
-
   // Event listener for the search input field
   searchInput.addEventListener('input', (event) => {
     const searchTerm = event.target.value.trim();
@@ -160,6 +144,40 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 
-  
-})
+  //add To cart
+   // Attach a click event listener to the "Add" buttons
+  const addCartButtons = document.querySelectorAll('.addCart');
+  addCartButtons.forEach((addCartButton) => {
+    addCartButton.addEventListener('click', (event) => {
+      const productData = JSON.parse(event.target.getAttribute('data-product'));
+      addToCart(productData);
+    });
+  });
 
+  function addToCart(productData) {
+    // Send an AJAX POST request to add the product to the server's shopping cart
+    fetch('/cart/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(productData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response from the server if needed
+        console.log();
+        // Optionally, you can update the cart display or perform other actions here
+        updateCartDisplay(data.cart);
+      })
+      .catch((error) => {
+        console.error('Error adding product to cart:', error);
+      });
+  }
+
+  
+
+
+
+
+});
