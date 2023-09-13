@@ -3,6 +3,9 @@ const router = express.Router();
 const Product = require('../models/Product.model');
 
 let shoppingCart =[]
+let subTotal = 0;
+let tax = 0;
+let total =0;
 router.get('/search/:searchTerm', (req, res, next) => {
 
     const {searchTerm}=req.params
@@ -23,8 +26,14 @@ router.get('/search/:searchTerm', (req, res, next) => {
     }else {
       findProduct.noItems ++
     }
+    const productTax = product.productPrice * 0.1; // Assuming 10% tax, you can adjust this value as needed
+  
+    subTotal += product.productPrice + productTax;
+    tax += productTax; 
+    total = subTotal+tax
+
     
-    res.json({ message: 'Product added to cart', cart: shoppingCart });
+    res.json({ message: 'Product added to cart', cart: shoppingCart, subTotal,tax,total });
   });
 
   router.get('/cart/contents', (req, res) => {
@@ -39,7 +48,12 @@ router.get('/search/:searchTerm', (req, res, next) => {
   
     if (findProduct) {
       findProduct.noItems++;
-      res.json({ message: 'Product quantity incremented', cart: shoppingCart });
+      res.json({ message: 'Product quantity incremented', cart: shoppingCart, subTotal,tax,total});
+     const productTax = findProduct.productPrice * 0.1; // Assuming 10% tax, you can adjust this value as needed
+    
+    subTotal += findProduct.productPrice + productTax;
+    tax += productTax; 
+    total = subTotal+tax
     } else {
       res.status(404).json({ message: 'Product not found' });
     }
@@ -53,12 +67,17 @@ router.get('/cart/decrement/:id', (req, res) => {
   if (findProduct) {
     if (findProduct.noItems > 1) {
       findProduct.noItems--;
-      res.json({ message: 'Product quantity decremented', cart: shoppingCart });
+      res.json({ message: 'Product quantity decremented', cart: shoppingCart, subTotal ,tax,total});
     } else {
       // Remove the product from the cart if quantity is 1
       shoppingCart = shoppingCart.filter((item) => item._id !== id);
-      res.json({ message: 'Product removed from cart', cart: shoppingCart });
+      res.json({ message: 'Product removed from cart', cart: shoppingCart, subTotal ,tax,total});
     }
+    const productTax = findProduct.productPrice * 0.1; // Assuming 10% tax, you can adjust this value as needed
+      
+      subTotal -= findProduct.productPrice - productTax;
+      tax -= productTax; 
+      total = subTotal+tax
   } else {
     res.status(404).json({ message: 'Product not found' });
   }
