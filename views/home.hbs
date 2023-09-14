@@ -56,9 +56,11 @@
   <p>SubTotal <span class="subtotal">$0.00</span></p>
   <p>Tax <span class="tax">$0.00</span></p>
   <p><b>Total </b><span class="total"><b>$0.00</b></span></p>
-  <input type="text" class="voucher form-control" value="Enter your voucher code here" min="4" max="100">
-  <button type="button" class="btn btn-secondary checkout-button">Check Out</button>
-  <button type="button" class="btn btn-light print-button">Print Receipt</button>
+
+
+
+  <button type="button" class="btn btn-secondary checkout-button" id="checkoutBtn">Check Out</button>
+ 
 </div>
 
             </div>
@@ -67,5 +69,54 @@
        <!-- CheckOut section ends-->
     </div>
      <!--Right panel starts-->
+<div id="checkout-popup" class="checkoutPopup">
+   <div class="checkout-content">
+     <span class="close">&times;</span>
+    <h2>Checkout Order #3484</h2>
+   <h1 >Amount to Pay:<b class="amount-total">  $0.00</b></h1>
+
+<p>Cashier: Brenda</p>
+<p>Paying as customer: Guest</p>
+
+  <div class="coupon-section">
+  <label for="coupon-code">coupon Code:</label>
+  <input type="text" id="coupon-code" class=" form-control" placeholder="Enter your coupon code here" min="4" max="100">
+   <button id="apply-coupon">Apply</button>
+   </div>
+
+<table id="checkout-table" class="table">
+    <thead>
+      <tr>
+        <th scope="col">index</th>
+        <th scope="col">Product</th>
+        <th scope="col">Qty</th>
+        <th scope="col">Price</th>
+      </tr>
+    </thead>
+    <tbody>
+
+  </tbody>
+ <tfoot>
+        <tr>
+          <th scope="row" colspan="3">Subtotal:</th>
+          <td class="product-total"><span class="checkout-subtotal"><b>$0.00</b></span></td>
+        </tr>
+        <tr>
+          <th scope="row" colspan="3">Tax:</th>
+          <td class="product-total"><span class="checkout-tax"><b>$0.00</b></span></td>
+        </tr>
+        
+        <tr>
+          <th scope="row" colspan="3">Total:</th>
+          <td class="product-total"><span class="checkout-total"><b>$0.00</b></span></td>
+        </tr>
+         
+  </tfoot>
+</table>
+
+<button type="button" class="btn btn-primary">Process payment</button>
+ <button type="button" class="btn btn-light print-button">Print Receipt</button>
+</div>
+</div>
 
 </div>

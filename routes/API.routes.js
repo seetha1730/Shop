@@ -37,8 +37,8 @@ router.get('/search/:searchTerm', (req, res, next) => {
   });
 
   router.get('/cart/contents', (req, res) => {
- 
-    res.json(shoppingCart);
+    
+    res.json({shoppingCart, subTotal, tax, total});
   });
 
   // Increment the quantity of a product in the cart
@@ -82,6 +82,16 @@ router.get('/cart/decrement/:id', (req, res) => {
     res.status(404).json({ message: 'Product not found' });
   }
 });
+
    
+
+// router.get('/cart/discount', (req, res) => {
+//   const product = req.body;
+//   const findProduct = shoppingCart.find(item => item._id === product._id);
+
+//   res.json({ message: 'Product added to cart', cart: shoppingCart, subTotal, tax });
+// });
+
+
    
 module.exports = router;
